@@ -96,7 +96,7 @@ class Batsd
             if attempt < max_attempts
                 return stats(metric_name, start_timestamp, end_timestamp, attempt+1)
             else
-                raise InvalidValuesError
+                []
             end
         end
         results = if values[metric_name].is_a?(Hash)
