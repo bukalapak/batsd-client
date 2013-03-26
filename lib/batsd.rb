@@ -92,9 +92,9 @@ class Batsd
     def stats(metric_name, start_timestamp, end_timestamp=Time.now, attempt=0)
         results = []
         values = send_command("values #{metric_name} #{start_timestamp.to_i} #{end_timestamp.to_i}")
-        if values[metric_name].nil?
+        if values.nil? || values[metric_name].nil?
             if attempt < max_attempts
-                return values(metric_name, start_timestamp, end_timestamp, attempt+1)
+                return stats(metric_name, start_timestamp, end_timestamp, attempt+1)
             else
                 raise InvalidValuesError
             end
@@ -208,11 +208,11 @@ class Batsd
             Timeout::timeout(timeout.to_f / 1000.0) do
                 connect! unless self.remote
                 self.remote.puts command
-                @response = self.remote.gets
+                response = self.remote.gets
                 unless command == "ping"
-                    results = Marshal.load(Base64.decode64(@response))
+                    results = Marshal.load(Base64.decode64(response))
                 else
-                    results = @response.delete("\n")
+                    results = response.delete("\n")
                 end
                 results
             end
