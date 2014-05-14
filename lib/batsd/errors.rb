@@ -1,4 +1,4 @@
-class Batsd
+module Batsd
     ##
     # Base error for all batsd errors.
     class BaseError < RuntimeError

@@ -5,7 +5,8 @@ require 'base64'
 
 ##
 # A batsd client for querying data from a batsd server.
-class Batsd
+module Batsd
+  class Client
 
     ##
     # The default option values.
@@ -231,6 +232,7 @@ class Batsd
                     puts e.to_json
                 end
         end
+  end
 end
 
 require 'batsd/version'
